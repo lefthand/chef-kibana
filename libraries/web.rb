@@ -71,6 +71,9 @@ class Chef
             node.set['nginx']['install_method'] = node['kibana']['nginx']['install_method']
             @run_context.include_recipe 'nginx'
 
+            # Work around a bug in the parent cookbook: https://github.com/racker/chef-kibana/commit/265d75eabfe05fd2926e38f738d4133485c50f63
+            service 'nginx'
+
             template "#{node['nginx']['dir']}/sites-available/#{resources[:name]}" do
               source resources[:template]
               cookbook resources[:template_cookbook]
